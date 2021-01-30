@@ -13,6 +13,7 @@
   "perl": "6.d",
   "provides": {
     "App::MM": "lib/App/MM.rakumod",
+    "App::MM::BeetsDB": "lib/App/MM/BeetsDB.rakumod",
     "App::MM::Taglib": "lib/App/MM/Taglib.rakumod"
   },
   "resources": [

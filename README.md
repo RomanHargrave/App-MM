@@ -1,19 +1,19 @@
 NAME
 ====
 
-App::MusicManager - blah blah blah
+App::MM - blah blah blah
 
 SYNOPSIS
 ========
 
 ```raku
-use App::MusicManager;
+use App::MM :MAIN;
 ```
 
 DESCRIPTION
 ===========
 
-App::MusicManager is ...
+App::MM is ...
 
 AUTHOR
 ======

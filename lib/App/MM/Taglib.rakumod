@@ -2,7 +2,7 @@ use NativeCall;
 
 unit module App::MM::Taglib;
 
-my constant taglib = ('tag', 0);
+my constant taglib = ('tag_c', 0);
 
 #| Equivalent to TagLib_File_Type
 enum FileType (
@@ -136,7 +136,7 @@ class File is repr<CStruct> is export {
 
    #| Is this file valid (e.g. has readable tag data)?
    method is-valid(--> Bool) {
-      taglib-file-is-valid(self);
+      taglib-file-is-valid(self) != 0;
    }
    
    #| Retrieve the audioproperties struct for this file
@@ -170,7 +170,7 @@ class File is repr<CStruct> is export {
    }
 
    multi method tag('title' --> Str) { self.tag-handle.title; }
-   multi method tag('artist' --> Str) { self.tag-handle.artlst; }
+   multi method tag('artist' --> Str) { self.tag-handle.artist; }
    multi method tag('album' --> Str) { self.tag-handle.album; }
    multi method tag('comment' --> Str) { self.tag-handle.comment; }
    multi method tag('genre' --> Str) { self.tag-handle.genre; }
@@ -182,7 +182,7 @@ class File is repr<CStruct> is export {
    
    #| Save the file
    method save() {
-      taglib-file-save(self);
+      taglib-file-save(self) != 0;
    }
    
    submethod DESTROY {
@@ -190,11 +190,11 @@ class File is repr<CStruct> is export {
       taglib-tag-free-strings(); # god this is not how memory management should work
    }
 
-   multi sub open(Str $file) {
+   multi method open(Str $file) {
       taglib-file-new($file);
    }
 
-   multi sub open(Str $file, FileType $type) {
+   multi method open(Str $file, FileType $type) {
       taglib-file-new-type($file, $type.Int);
    }
 }
@@ -225,7 +225,7 @@ sub taglib-file-free(
 #| Returns true if the file is open and readable and valid information was found
 sub taglib-file-is-valid(
    File $file
-   --> Bool
+   --> bool
 ) is native(taglib) is symbol<taglib_file_is_valid> is export(:ALL) {}
 
 #| Returns the tag associated with the file.
@@ -243,7 +243,7 @@ sub taglib-file-audioproperties(
 #| Save a file
 sub taglib-file-save(
    File $file
-   --> Bool
+   --> bool
 ) is native(taglib) is symbol<taglib_file_save> is export(:ALL) {}
 
 =begin pod
@@ -370,7 +370,20 @@ sub taglib-audioproperties-channels(
 
 
 sub MAIN(*@files) is export(:MAIN) {
-   for @files {
-      
+   die 'No files' unless @files.so;
+
+   for @files -> $file {
+      with File.open($file) {
+         when .is-valid {
+            say "File «$file»";
+            for <title artist album comment genre year track> -> $tag {
+               say "$tag : {.tag: $tag}"
+            }
+            say "length : {.length}s";
+            say "bitrate : {.bitrate} kb/s";
+            say "sample rate : {.sample-rate}Hz";
+            say "channels : {.channels}";
+         }
+      }
    }
 }
