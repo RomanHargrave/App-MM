@@ -1,0 +1,6 @@
+use Test;
+use App::MusicManager;
+
+pass "replace me";
+
+done-testing;

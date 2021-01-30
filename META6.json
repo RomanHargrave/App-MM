@@ -1,0 +1,24 @@
+{
+  "authors": [
+    "Roman Hargrave"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "blah blah blah",
+  "license": "Artistic-2.0",
+  "name": "App::MusicManager",
+  "perl": "6.d",
+  "provides": {
+    "App::MusicManager": "lib/App/MusicManager.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}
