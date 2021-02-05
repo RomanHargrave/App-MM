@@ -1,0 +1,9 @@
+all: lib
+
+lib: %DESTDIR%/resources/lib/%ogg_crc32%
+
+resources/lib/%ogg_crc32%: src/ogg_crc32%O%
+	%LD% %LDSHARED% %LDFLAGS% %LDOUT%resources/lib/%LIB_NAME% src/ogg_crc32%O%
+
+src/ogg_crc32%O%: src/ogg_crc32.c
+	%CC% -I src -c %CCSHARED% %CCFLAGS% %CCOUT% src/ogg_crc32%O% src/ogg_crc32.c

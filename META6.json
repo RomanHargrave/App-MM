@@ -3,9 +3,9 @@
     "Roman Hargrave"
   ],
   "build-depends": [
+    "LibraryMake"
   ],
   "depends": [
-    "Red"
   ],
   "description": "blah blah blah",
   "license": "Artistic-2.0",
@@ -14,9 +14,12 @@
   "provides": {
     "App::MM": "lib/App/MM.rakumod",
     "App::MM::BeetsDB": "lib/App/MM/BeetsDB.rakumod",
+    "App::MM::Format::Container::LibOGG": "lib/App/MM/Format/Container/LibOGG.rakumod",
+    "App::MM::Format::Container::OGG": "lib/App/MM/Format/Container/OGG.rakumod",
     "App::MM::Taglib": "lib/App/MM/Taglib.rakumod"
   },
   "resources": [
+    "lib/libogg_crc32.so"
   ],
   "source-url": "https://github.com/RomanHargrave/App-MM.git",
   "tags": [
