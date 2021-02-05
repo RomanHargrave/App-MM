@@ -18,6 +18,7 @@ my constant PageEOS  = 4; #= Page ends a logical stream
 class OGGReader is export {
    my constant Cap    = 'OggS'.encode;
    my constant CapNum = Cap.read-uint32: 0; #= 0x5367674F
+   my constant CapCRC = ogg_crc32(0, Cap, Cap.bytes);
    
    has IO::Handle $.in is readonly is required;
 
@@ -75,12 +76,11 @@ class OGGReader is export {
       
       if $.verify-checksum {
          $hdr.write-uint32: 18, 0; # clear the CRC as it was written
-         my uint32 $crc-eff = ogg_crc32(0, Cap, Cap.bytes);
+         my uint32 $crc-eff = CapCRC;
          $crc-eff = ogg_crc32($crc-eff, $hdr, $hdr.bytes);
          $crc-eff = ogg_crc32($crc-eff, $lvs-buf, $lvs-buf.bytes);
          $crc-eff = ogg_crc32($crc-eff, $body, $body.bytes);
 
-         #printf "%08X %08X\n", $crc, $crc-eff;
          warn "CRC Mismatch for page {$serial}#{$seq}: got $crc-eff but expected $crc" unless $crc-eff == $crc;
       }
 
