@@ -22,7 +22,7 @@ class OGGReader is export {
    
    has IO::Handle $.in is readonly is required;
 
-   has Bool $.verify-checksum = False;
+   has Bool $.no-checksum = False;
    has Bool $.hunt = False;
 
    has $!packet-buf = Buf.new;
@@ -74,7 +74,7 @@ class OGGReader is export {
       
       %!eos{$serial} = True if $eos; # try to avoid useless hash access here 
       
-      if $.verify-checksum {
+      unless $.no-checksum {
          $hdr.write-uint32: 18, 0; # clear the CRC as it was written
          my uint32 $crc-eff = CapCRC;
          $crc-eff = ogg_crc32($crc-eff, $hdr, $hdr.bytes);
@@ -148,8 +148,16 @@ for reading and writing metadata (tags).
 
 Support has been implemented according to L<RFC3533|https://xiph.org/ogg/doc/rfc3533.txt>.
 
-=head2 OGG Structure Overview
-OGG bitstreams are composed of a series of logical streams carrying arbitrary data.
-The streams are broken up into pages, where each page carries data for one stream.
-Pages contain packets (segments) that store the stream data.
+=head2 Reading OGG Files
+
+C<
+use App::MM::Format::Container::OGG;
+
+my $r = OGGReader.new: :in('file.ogg'.IO.open);
+
+for $r.packets -> ($stream-id, $packet-data-buf) {
+   # do some stuff
+}
+>
+
 =end pod
