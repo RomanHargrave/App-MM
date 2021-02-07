@@ -152,6 +152,8 @@ class LOGGReader is export {
       has $.eos;
       has $.bos;
       has $.packet-number;
+
+      method Blob(--> Blob) { $!contents };
    }
 
    has IO::Handle $.in is required;

@@ -16,6 +16,8 @@
     "App::MM::BeetsDB": "lib/App/MM/BeetsDB.rakumod",
     "App::MM::Format::Container::LibOGG": "lib/App/MM/Format/Container/LibOGG.rakumod",
     "App::MM::Format::Container::OGG": "lib/App/MM/Format/Container/OGG.rakumod",
+    "App::MM::Metadata": "lib/App/MM/Metadata.rakumod",
+    "App::MM::Metadata::VorbisComment": "lib/App/MM/Metadata/VorbisComment.rakumod",
     "App::MM::Taglib": "lib/App/MM/Taglib.rakumod"
   },
   "resources": [
